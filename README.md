@@ -2,16 +2,18 @@
 
 # NS-Forest v4.1
 
-Documentation: https://nsforest.readthedocs.io/en/latest/
+__Documentation:__ https://nsforest.readthedocs.io/en/latest/
 
-Citation: https://bmcmethods.biomedcentral.com/articles/10.1186/s44330-024-00015-2
+__Citation:__ Liu A, Peng B, Pankajam A, Duong TE, Pryhuber G, Scheuermann RH, Zhang Y. (2024) Discovery of optimal cell type classification marker genes from single cell RNA sequencing data. __*BMC Methods.*__  https://doi.org/10.1186/s44330-024-00015-2
+
+__*To contribute, please open an [issue](https://github.com/NLM-DIR/NSForest/issues) on this Github repository.*__
 
 ## Download and installation
 
 In terminal: 
 
 ```
-git clone https://github.com/JCVenterInstitute/NSForest.git
+git clone https://github.com/NLM-DIR/NSForest.git
 
 cd NSForest
 
@@ -24,13 +26,13 @@ pip install .
 
 ## Tutorial
 
-Follow the tutorial on: https://nsforest.readthedocs.io/en/latest/tutorial.html
+Please find tutorials in the [documentation](https://nsforest.readthedocs.io/en/latest/).
 
 ## Prerequisites
-* This is a python script written and tested in python 3.11, scanpy 1.9.6.
+* This package is written and tested in python 3.11+, scanpy 1.9.6+.
 * Other required libraries: numpy, pandas, sklearn, plotly, time, tqdm.
 
-## Pipeline
+## NS-Forest workflow
 
 <img src="pipeline.PNG">
 
@@ -42,27 +44,25 @@ NS-Forest is an algorithm designed to identify minimum combinations of necessary
 
 3. Binary scoring criterion: NS-Forest then filters for genes with high binary scores. Candidate genes are selected if their binary scores are 2 standard deviations above the mean of all genes expressed in the cluster. 
 
-4. Random forest: The top 15 binary score genes are used as input into a random forest classifier, which ranks the genes by Gini Impurity, while producing a classification model for each cluster. 
+4. Random forest: Pre-selected gene candidates based on binary scoring are used as input into a random forest classifier, which ranks the genes by Gini Impurity, while producing a classification model for each cluster. 
 
 5. Decision tree evaluation: The top 6 ranked random forest genes are used as input into decision trees where all combinations of input genes are evaluated and the combination with the highest F-beta score is selected. 
 
-6. Output: The NS-Forest algorithm outputs 1-6 marker genes per cluster along with the classification metrics (F-beta, PPV (precision), recall) and the On-Target Fraction expression metric. 
+6. Output: The NS-Forest algorithm outputs 1-6 marker genes per cluster along with the classification metrics (F-beta, precision, recall) and the On-Target Fraction expression metric. 
 
-### NS-Forest Marker Gene Evaluation
+### Marker gene evaluation module
 
-The final module in the NS-Forest algorithm can also be used to assess the performance of any collection of marker gene combinations identified using any approach.  The marker gene evaluation module includes the following steps (default setting):
+The final module in the NS-Forest workflow can also be used to assess the performance of any collection of marker genes identified using any approach. The marker gene evaluation module includes the following steps (default setting):
 
-1. Data input: 1) An AnnData object (e.g., .h5ad file) with cell type cluster labels. 2) A list of marker genes for every cluster to be evaluated. 
+1. Data input: 1) An AnnData object (e.g., .h5ad file) with cell type cluster labels. 2) A dictionary of marker genes for every cluster to be evaluated. 
 
-2. Decision tree creation: One-vs-all decision trees are created for each gene in the cluster combination and evaluated for classification accuracy. 
+2. Decision tree evaluation: One-vs-all decision trees are created for each gene in the marker combination. If there are more than one gene in the marker combination, an AND logic is used when calculating the true positives from multiple decision trees for one cell type cluster.
 
-3. Decision tree evaluation: Each gene in the cluster combination is evaluated using these decision trees to determine if the gene gives the correct classification. If even one gene in the cluster combination gives a misclassification, then the prediction is considered incorrect. Note: This strict criteria may lead to PPV = 0 when no true positives (TP) classification are obtained. 
-
-4. Output: The NS-Forest marker gene evaluation outputs the classification metrics (F-beta, PPV (precision), recall) and On-Target Fraction for every cluster combination, which can be used to compare against other marker gene lists.
+3. Output: The marker gene evaluation module outputs the classification metrics (F-beta, precision, recall) and On-Target Fraction for evaluated markers of every cluster.
 
 ## Versions and citations
 
-Earlier versions are managed in [Releases](https://github.com/JCVenterInstitute/NSForest/releases).  
+Earlier versions are managed in [Releases](https://github.com/NLM-DIR/NSForest/releases).  
 
 Version 4.0:
 
@@ -78,21 +78,21 @@ Aevermann BD, Novotny M, Bakken T, Miller JA, Diehl AD, Osumi-Sutherland D, Lask
 
 ## Authors
 
-* Beverly Peng (bpeng@jcvi.org)
 * Angela Liu (aliu@jcvi.org)
+* Beverly Peng (bpeng@jcvi.org)
+* Brian Aevermann (baevermann@chanzuckerberg.com)
 * Richard Scheuermann (richard.scheuermann@nih.gov)
 * Yun (Renee) Zhang (yun.zhang@nih.gov)
-* Brian Aevermann (baevermann@chanzuckerberg.com)
-
-## License
-
-This project is licensed under the [MIT License](https://github.com/JCVenterInstitute/NSForest/blob/master/LICENSE).
 
 ## Acknowledgments
 
+* Division of Intramural Research, National Library of Medicine
+  
+Our collaborators:
 * Allen Institute of Brain Science
 * Brain Initiative Cell Census Network
 * Chan Zuckerberg Initiative
 * California Institute for Regenerative Medicine
-* National Library of Medicine
+* J. Craig Venter Institute
+
 
