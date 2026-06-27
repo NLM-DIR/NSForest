@@ -1,4 +1,4 @@
-<img src="NS-Forest-sticker.png" width="110" height="125">
+<img src="NS-Forest-sticker-2.png" width="110" height="125">
 
 # NS-Forest v4.1
 
@@ -34,7 +34,7 @@ Please find tutorials in the [documentation](https://nsforest.readthedocs.io/en/
 
 ## NS-Forest workflow
 
-<img src="pipeline.PNG">
+<img src="workflow.png">
 
 NS-Forest is an algorithm designed to identify minimum combinations of necessary and sufficient marker genes for a cell type cluster identified in a single cell or single nucleus RNA sequencing experiment that optimizes classification accuracy. NS-Forest proceeds through the following steps (default setting):
 
@@ -50,7 +50,9 @@ NS-Forest is an algorithm designed to identify minimum combinations of necessary
 
 6. Output: The NS-Forest algorithm outputs 1-6 marker genes per cluster along with the classification metrics (F-beta, precision, recall) and the On-Target Fraction expression metric. 
 
-### Marker gene evaluation module
+## Marker gene evaluation module
+
+<img src="evaluation.png">
 
 The final module in the NS-Forest workflow can also be used to assess the performance of any collection of marker genes identified using any approach. The marker gene evaluation module includes the following steps (default setting):
 
