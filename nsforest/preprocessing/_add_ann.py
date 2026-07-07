@@ -320,6 +320,7 @@ def spaceTx_genefilter(adata, lower_percentile = 0.1, upper_percentile = 0.99, m
         tx_length = pd.merge(tx_length, annotation_txLength[[col, "tx_length"]], on = col, how = "left").sort_values("tx_length")
         tx_length = tx_length.drop_duplicates(col, keep = "first")
         tx_length.index = tx_length[col]
+        tx_length = tx_length.reindex(adata.var.index)
         ind_selected_txLength = tx_length["tx_length"] > min_txLength
         ## select genes that pass the txLength filter
         print(f'FILTER 2: {sum(ind_selected_txLength)} out of {adata.n_vars} total genes passed the transcript length filter (min_txLength = {min_txLength}).')
