@@ -44,8 +44,7 @@ def dendrogram(adata, cluster_header, *, tl_kwargs = {}, pl_kwargs = {}, save = 
             save = "png"
         sc.settings.verbosity = 0
         sc.settings.figdir = output_folder
-        save = f"dendrogram_{outputfilename_suffix}.{save}"
-        print(f"Saving dendrogram as...\n{output_folder}{save}")
+        print(f"Saving dendrogram as...\n{output_folder}dendogram_{outputfilename_suffix}.{save}")
     if not adata.obsm or "X_pca" not in adata.obsm: 
         sc.pp.pca(adata)
     sc.tl.dendrogram(adata, cluster_header, use_rep="X_pca", **tl_kwargs)
@@ -56,7 +55,7 @@ def dendrogram(adata, cluster_header, *, tl_kwargs = {}, pl_kwargs = {}, save = 
         figsize = (fig_width, fig_height)
     with plt.rc_context({"figure.figsize": figsize}): 
         # sc.pl.dendrogram(adata, cluster_header, save = save, **pl_kwargs)
-        if save: sc.pl.dendrogram(adata, cluster_header, **pl_kwargs).figure.savefig(save)
+        if save: sc.pl.dendrogram(adata, cluster_header, save=f"_{outputfilename_suffix}.{save}", **pl_kwargs)
         else: sc.pl.dendrogram(adata, cluster_header, **pl_kwargs)
     return
 
