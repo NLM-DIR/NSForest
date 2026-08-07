@@ -24,7 +24,7 @@ pip install .
 
 ## Tutorial
 
-Follow the tutorial on: https://nsforest.readthedocs.io/en/latest/tutorial.html
+Follow the tutorial on: https://ns-forest.readthedocs.io/en/latest/tutorial.html
 
 ## Prerequisites
 
