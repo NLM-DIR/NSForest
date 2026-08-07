@@ -14,8 +14,8 @@ Additionally, emacs is installed to faciliate editing. Once the environment is c
 
 .. code-block:: console
 
-   conda env create -f environment.yml
-   conda activate environment
+   conda env create -f nsForest_env.yml
+   conda activate nsForest_env
 
 There are 2 ways to run NS-Forest: Jupyter Notebook and command line
 
