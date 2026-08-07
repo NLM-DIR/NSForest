@@ -2,17 +2,16 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath("../../nsforest"))
 sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information
 
 project = 'NS-Forest'
-copyright = '202X, JCVI, NIH'
+copyright = '2026, NLM, NIH'
 author = 'Beverly Peng'
 
-release = '4.1'
-version = '4.1'
+release = '4.2'
+version = '4.2'
 
 # -- General configuration
 

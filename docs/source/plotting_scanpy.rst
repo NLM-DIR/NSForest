@@ -1,8 +1,8 @@
 Plotting with scanpy
 ====================
 
-.. autofunction:: plotting.dotplot
+.. autofunction:: nsforest.plotting.dotplot
 
-.. autofunction:: plotting.stackedviolin
+.. autofunction:: nsforest.plotting.stackedviolin
 
-.. autofunction:: plotting.matrixplot
+.. autofunction:: nsforest.plotting.matrixplot

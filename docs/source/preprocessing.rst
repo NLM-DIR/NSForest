@@ -1,15 +1,15 @@
 Preprocessing
 =============
 
-.. autofunction:: preprocessing.dendrogram
+.. autofunction:: nsforest.preprocessing.dendrogram
 
-.. autofunction:: preprocessing.prep_medians
+.. autofunction:: nsforest.preprocessing.prep_medians
 
-.. autofunction:: preprocessing.get_medians
+.. autofunction:: nsforest.preprocessing.get_medians
 
-.. autofunction:: preprocessing.prep_binary_scores
+.. autofunction:: nsforest.preprocessing.prep_binary_scores
 
-.. autofunction:: preprocessing.plot_varm
+.. autofunction:: nsforest.preprocessing.plot_varm
 
-.. autofunction:: preprocessing.spaceTx_genefilter
+.. autofunction:: nsforest.preprocessing.spaceTx_genefilter
     

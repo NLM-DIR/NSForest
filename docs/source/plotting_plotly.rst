@@ -1,7 +1,7 @@
 Plotting with plotly
 ====================
 
-.. autofunction:: plotting.boxplot
+.. autofunction:: nsforest.plotting.boxplot
 
-.. autofunction:: plotting.scatter_w_clusterSize
+.. autofunction:: nsforest.plotting.scatter_w_clusterSize
 

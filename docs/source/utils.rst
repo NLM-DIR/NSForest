@@ -1,6 +1,6 @@
 Utility Functions
 =================
 
-.. autofunction:: utils.str_to_list
+.. autofunction:: nsforest.utils.str_to_list
 
-.. autofunction:: utils.prepare_markers
+.. autofunction:: nsforest.utils.prepare_markers

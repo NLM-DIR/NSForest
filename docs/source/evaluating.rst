@@ -1,6 +1,6 @@
 Evaluating
 ==========
 
-.. autofunction:: evaluating.DecisionTree
+.. autofunction:: nsforest.evaluating.DecisionTree
 
-.. autofunction:: evaluating.add_fraction
+.. autofunction:: nsforest.evaluating.add_fraction
