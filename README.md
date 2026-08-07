@@ -1,100 +1,96 @@
-<img src="NS-Forest-sticker-2.png" width="110" height="125">
+<img src="NS-Forest-sticker.png" width="110" height="125">
 
-# NS-Forest v4.1
+# NS-Forest v4.2
 
-__Documentation:__ https://nsforest.readthedocs.io/en/latest/
+Documentation: https://nsforest.readthedocs.io/en/latest/
 
-__Citation:__ Liu A, Peng B, Pankajam A, Duong TE, Pryhuber G, Scheuermann RH, Zhang Y. (2024) Discovery of optimal cell type classification marker genes from single cell RNA sequencing data. __*BMC Methods.*__  https://doi.org/10.1186/s44330-024-00015-2
-
-__*To contribute, please open an [issue](https://github.com/NLM-DIR/NSForest/issues) on this Github repository.*__
+Citation: https://bmcmethods.biomedcentral.com/articles/10.1186/s44330-024-00015-2
 
 ## Download and installation
 
-In terminal: 
+In terminal:
 
 ```
 git clone https://github.com/NLM-DIR/NSForest.git
 
 cd NSForest
 
-conda env create -f environment.yml
+conda env create -f nsForest_env.yml
 
-conda activate nsforest
+conda activate nsForest_env
 
 pip install .
 ```
 
 ## Tutorial
 
-Please find tutorials in the [documentation](https://nsforest.readthedocs.io/en/latest/).
+Follow the tutorial on: https://nsforest.readthedocs.io/en/latest/tutorial.html
 
 ## Prerequisites
-* This package is written and tested in python 3.11+, scanpy 1.9.6+.
-* Other required libraries: numpy, pandas, sklearn, plotly, time, tqdm.
 
-## NS-Forest workflow
+* This package is written and tested in python 3.14.3, scanpy 1.12.1, pandas 2.3.3.
+* Other required libraries: anndata, numpy, scikit-learn, matplotlib, plotly, time, tqdm.
+* See nsForest\_env.yml for the full, verified dependency list with version ranges.
 
-<img src="workflow.png">
+## Pipeline
+
+<img src="pipeline.PNG">
 
 NS-Forest is an algorithm designed to identify minimum combinations of necessary and sufficient marker genes for a cell type cluster identified in a single cell or single nucleus RNA sequencing experiment that optimizes classification accuracy. NS-Forest proceeds through the following steps (default setting):
 
-1. Data input: An AnnData object (e.g., .h5ad file) with cell type cluster labels. 
+1. Data input: An AnnData object (e.g., .h5ad file) with cell type cluster labels.
+2. Binary score calculation: Each gene is assigned a binary score for every cluster. Binary score is a measurement of the binary expression pattern of a gene. A higher binary score means a gene is expressed in one cluster and not others. A lower binary score means a gene is expressed in many clusters and would not be an ideal candidate for a cell type-specific marker gene.
+3. Binary scoring criterion: NS-Forest then filters for genes with high binary scores. Candidate genes are selected if their binary scores are 2 standard deviations above the mean of all genes expressed in the cluster.
+4. Random forest: The top 15 binary score genes are used as input into a random forest classifier, which ranks the genes by Gini Impurity, while producing a classification model for each cluster.
+5. Decision tree evaluation: The top 6 ranked random forest genes are used as input into decision trees where all combinations of input genes are evaluated and the combination with the highest F-beta score is selected.
+6. Output: The NS-Forest algorithm outputs 1-6 marker genes per cluster along with the classification metrics (F-beta, PPV (precision), recall) and the On-Target Fraction expression metric.
 
-2. Binary score calculation: Each gene is assigned a binary score for every cluster. Binary score is a measurement of the binary expression pattern of a gene. A higher binary score means a gene is expressed in one cluster and not others. A lower binary score means a gene is expressed in many clusters and would not be an ideal candidate for a cell type-specific marker gene. 
+### NS-Forest Marker Gene Evaluation
 
-3. Binary scoring criterion: NS-Forest then filters for genes with high binary scores. Candidate genes are selected if their binary scores are 2 standard deviations above the mean of all genes expressed in the cluster. 
+The final module in the NS-Forest algorithm can also be used to assess the performance of any collection of marker gene combinations identified using any approach.  The marker gene evaluation module includes the following steps (default setting):
 
-4. Random forest: Pre-selected gene candidates based on binary scoring are used as input into a random forest classifier, which ranks the genes by Gini Impurity, while producing a classification model for each cluster. 
-
-5. Decision tree evaluation: The top 6 ranked random forest genes are used as input into decision trees where all combinations of input genes are evaluated and the combination with the highest F-beta score is selected. 
-
-6. Output: The NS-Forest algorithm outputs 1-6 marker genes per cluster along with the classification metrics (F-beta, precision, recall) and the On-Target Fraction expression metric. 
-
-## Marker gene evaluation module
-
-<img src="evaluation.png">
-
-The final module in the NS-Forest workflow can also be used to assess the performance of any collection of marker genes identified using any approach. The marker gene evaluation module includes the following steps (default setting):
-
-1. Data input: 1) An AnnData object (e.g., .h5ad file) with cell type cluster labels. 2) A dictionary of marker genes for every cluster to be evaluated. 
-
-2. Decision tree evaluation: One-vs-all decision trees are created for each gene in the marker combination. If there are more than one gene in the marker combination, an AND logic is used when calculating the true positives from multiple decision trees for one cell type cluster.
-
-3. Output: The marker gene evaluation module outputs the classification metrics (F-beta, precision, recall) and On-Target Fraction for evaluated markers of every cluster.
+1. Data input: 1) An AnnData object (e.g., .h5ad file) with cell type cluster labels. 2) A list of marker genes for every cluster to be evaluated.
+2. Decision tree creation: One-vs-all decision trees are created for each gene in the cluster combination and evaluated for classification accuracy.
+3. Decision tree evaluation: Each gene in the cluster combination is evaluated using these decision trees to determine if the gene gives the correct classification. If even one gene in the cluster combination gives a misclassification, then the prediction is considered incorrect. Note: This strict criteria may lead to PPV = 0 when no true positives (TP) classification are obtained.
+4. Output: The NS-Forest marker gene evaluation outputs the classification metrics (F-beta, PPV (precision), recall) and On-Target Fraction for every cluster combination, which can be used to compare against other marker gene lists.
 
 ## Versions and citations
 
-Earlier versions are managed in [Releases](https://github.com/NLM-DIR/NSForest/releases).  
+Earlier versions are managed in [Releases](https://github.com/JCVenterInstitute/NSForest/releases).
+
+Version 4.2:
+
+Environment compatibility update — verified against python 3.14.3, scanpy 1.12.1, anndata 0.12.x, numpy 2.4.x, pandas 2.3.x, matplotlib 3.10.x+. 
 
 Version 4.0:
 
-Liu A, Peng B, Pankajam A, Duong TE, Pryhuber G, Scheuermann RH, Zhang Y. (2024) Discovery of optimal cell type classification marker genes from single cell RNA sequencing data. __*BMC Methods.*__  https://doi.org/10.1186/s44330-024-00015-2
+Liu A, Peng B, Pankajam A, Duong TE, Pryhuber G, Scheuermann RH, Zhang Y. (2024) Discovery of optimal cell type classification marker genes from single cell RNA sequencing data. ***BMC Methods.***  https://doi.org/10.1186/s44330-024-00015-2
 
 Version 2.0:
 
-Aevermann BD, Zhang Y, Novotny M, Keshk M, Bakken TE, Miller JA, Hodge RD, Lelieveldt B, Lein ES, Scheuermann RH. (2021) A machine learning method for the discovery of minimum marker gene combinations for cell-type identification from single-cell RNA sequencing. __*Genome Res.*__ https://pubmed.ncbi.nlm.nih.gov/34088715/
+Aevermann BD, Zhang Y, Novotny M, Keshk M, Bakken TE, Miller JA, Hodge RD, Lelieveldt B, Lein ES, Scheuermann RH. (2021) A machine learning method for the discovery of minimum marker gene combinations for cell-type identification from single-cell RNA sequencing. ***Genome Res.*** https://pubmed.ncbi.nlm.nih.gov/34088715/
 
 Version 1.3/1.0:
 
-Aevermann BD, Novotny M, Bakken T, Miller JA, Diehl AD, Osumi-Sutherland D, Lasken RS, Lein ES, Scheuermann RH. (2018) Cell type discovery using single-cell transcriptomics: implications for ontological representation. __*Hum Mol Genet.*__ https://pubmed.ncbi.nlm.nih.gov/29590361/
+Aevermann BD, Novotny M, Bakken T, Miller JA, Diehl AD, Osumi-Sutherland D, Lasken RS, Lein ES, Scheuermann RH. (2018) Cell type discovery using single-cell transcriptomics: implications for ontological representation. ***Hum Mol Genet.*** https://pubmed.ncbi.nlm.nih.gov/29590361/
 
 ## Authors
 
-* Angela Liu (aliu@jcvi.org)
 * Beverly Peng (bpeng@jcvi.org)
-* Brian Aevermann (baevermann@chanzuckerberg.com)
+* Angela Liu (aliu@jcvi.org)
 * Richard Scheuermann (richard.scheuermann@nih.gov)
 * Yun (Renee) Zhang (yun.zhang@nih.gov)
+* Brian Aevermann (baevermann@chanzuckerberg.com)
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/JCVenterInstitute/NSForest/blob/master/LICENSE).
 
 ## Acknowledgments
 
-* Division of Intramural Research, National Library of Medicine
-  
-Our collaborators:
 * Allen Institute of Brain Science
 * Brain Initiative Cell Census Network
 * Chan Zuckerberg Initiative
 * California Institute for Regenerative Medicine
-* J. Craig Venter Institute
-
+* National Library of Medicine
 
