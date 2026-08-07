@@ -2,7 +2,7 @@
 
 # NS-Forest v4.2
 
-Documentation: https://nsforest.readthedocs.io/en/latest/
+Documentation: https://ns-forest.readthedocs.io/en/latest/
 
 Citation: https://bmcmethods.biomedcentral.com/articles/10.1186/s44330-024-00015-2
 
