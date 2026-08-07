@@ -76,6 +76,7 @@ Aevermann BD, Novotny M, Bakken T, Miller JA, Diehl AD, Osumi-Sutherland D, Lask
 
 ## Authors
 
+* Rana Khalil (rana.khalil@nih.gov)
 * Beverly Peng (bpeng@jcvi.org)
 * Angela Liu (aliu@jcvi.org)
 * Richard Scheuermann (richard.scheuermann@nih.gov)
