@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nsforest"
-version = "4.1"
+version = "4.2"
 description =  "A machine learning method for the discovery of minimum marker gene combinations for cell type identification from single-cell RNA sequencing"
 license = "MIT"
 authors = [
@@ -9,17 +9,18 @@ authors = [
     "Brian Aevermann <baevermann@chanzuckerberg.com>", 
     "Angela Liu <aliu@jcvi.org>", 
     "Beverly Peng <bpeng@jcvi.org>", 
+    "Rana Khalil <rana.khalil@nih.gov>", 
     "Ajith V. Pankajam <ajith.viswanathanasaripankajam@nih.gov>"
 ]
 maintainers = [
-    "Beverly Peng <bpeng@jcvi.org>"
+    "Rana Khalil <rana.khalil@nih.gov>"
 ]
 readme = "README.md"
 packages = [{ include = "nsforest" }]
 
 [tool.poetry.dependencies]
-scanpy = "^1.9.3"
-python = "^3.8"
+scanpy = "^1.11.5"
+python = "^3.14.3"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api" 
