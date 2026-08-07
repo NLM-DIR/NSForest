@@ -62,7 +62,7 @@ Version 4.2:
 
 Environment compatibility update — verified against python 3.14.3, scanpy 1.12.1, anndata 0.12.x, numpy 2.4.x, pandas 2.3.x, matplotlib 3.10.x+. 
 
-Version 4.0:
+Version 4.1/4.0:
 
 Liu A, Peng B, Pankajam A, Duong TE, Pryhuber G, Scheuermann RH, Zhang Y. (2024) Discovery of optimal cell type classification marker genes from single cell RNA sequencing data. ***BMC Methods.***  https://doi.org/10.1186/s44330-024-00015-2
 
