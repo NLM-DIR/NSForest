@@ -8,7 +8,7 @@ from sklearn.metrics import confusion_matrix
 import itertools
 
 ## construct decision tree for each gene and evaluate the fbeta score in all combinations ==> outputs markers with max fbeta, and all scores
-def myDecisionTreeEvaluation(adata, df_dummies, cl, genes_eval, beta = 0.5, combinations = True):
+def myDecisionTreeEvaluation(adata, df_dummies, cl, genes_eval, beta = 0.5, combinations = True, logic = "AND"):
     """\
     Calculating performance metrics for `genes_eval`. 
 
@@ -26,6 +26,10 @@ def myDecisionTreeEvaluation(adata, df_dummies, cl, genes_eval, beta = 0.5, comb
             `beta` parameter in sklearn.metrics's fbeta_score. 
         combinations: bool (default: True)
             Whether to find the combination of `genes_eval` with the highest fbeta_score. 
+        logic: str (default: "AND")
+            Logic to combine gene predictions.
+            "AND": cell predicted as target if ALL markers expressed
+            "OR":  cell predicted as target if ANY marker expressed
     
     Returns
     -------
@@ -59,8 +63,10 @@ def myDecisionTreeEvaluation(adata, df_dummies, cl, genes_eval, beta = 0.5, comb
     dict_scores = {} 
     for ii in combs:
         y_true = df_dummies[cl]
-        # if at least 1 gene is incorrect, 0
-        y_pred = df_pred[ii].product(axis=1)
+        if logic == "AND":
+            y_pred = df_pred[ii].product(axis=1)  # original: 0 if any gene = 0
+        elif logic == "OR":
+            y_pred = df_pred[ii].max(axis=1)       # 1 if any gene = 1
         fbeta = fbeta_score(y_true, y_pred, average='binary', beta=beta)
         ppv = precision_score(y_true, y_pred, average='binary', zero_division=0)
         recall = recall_score(y_true, y_pred, average='binary', zero_division=0)
