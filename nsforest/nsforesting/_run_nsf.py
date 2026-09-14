@@ -182,7 +182,7 @@ def NSForest(adata, cluster_header, *, medians_header = "medians_", binary_score
 
         ## Evaluation step: calculate F-beta score for gene combinations
         genes_eval = top_binary_genes.index[:n_genes_eval_cl].to_list()
-        markers, scores = mydecisiontreeevaluation.myDecisionTreeEvaluation(adata, df_dummies, cl, genes_eval, beta, logic)
+        markers, scores = mydecisiontreeevaluation.myDecisionTreeEvaluation(adata, df_dummies, cl, genes_eval, beta, logic=logic)
         print(f"\tNSForest-selected markers: {markers}")
         print(f"\tfbeta: {round(scores[0], 3)}")
         print(f"\tprecision: {round(scores[1], 3)}")
