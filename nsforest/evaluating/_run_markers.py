@@ -7,7 +7,7 @@ from nsforest.nsforesting import mydecisiontreeevaluation
 from nsforest.nsforesting import calculate_fraction
 
 def DecisionTree(adata, cluster_header, markers_dict, *, medians_header = "medians_", 
-                 beta = 0.5, combinations = False, individual_markers = False, use_mean = False,
+                 beta = 0.5, combinations = False, logic = "AND", individual_markers = False, use_mean = False,
                  save = False, save_supplementary = False, output_folder = "", outputfilename_prefix = ""): 
     """\
     Calculating sklearn.metrics's fbeta_score, precision_score, recall_score, and confusion_matrix for each clusterName: markers in `markers_dict`. 
@@ -26,6 +26,10 @@ def DecisionTree(adata, cluster_header, markers_dict, *, medians_header = "media
             `beta` parameter in sklearn.metrics's fbeta_score. 
         combinations: bool (default: False)
             Whether to find the combination of markers with the highest fbeta_score. 
+        logic: str (default: "AND")
+            Logic to combine gene predictions.
+            "AND": cell predicted as target if ALL markers expressed
+            "OR":  cell predicted as target if ANY marker expressed
         use_mean: bool (default: False)
             Whether to use the mean (vs median) for minimum gene expression threshold. 
         save: bool (default: False)
@@ -95,7 +99,7 @@ def DecisionTree(adata, cluster_header, markers_dict, *, medians_header = "media
         
         ## Evaluation step: calculate F-beta score for gene combinations
         if not individual_markers: 
-            markers, scores = mydecisiontreeevaluation.myDecisionTreeEvaluation(adata, df_dummies, cl, markers, beta, combinations = combinations)
+            markers, scores = mydecisiontreeevaluation.myDecisionTreeEvaluation(adata, df_dummies, cl, markers, beta, combinations = combinations, logic = logic)
             if combinations: 
                 print(f"\tBest combination of markers: {markers}")
             print(f"\tfbeta: {round(scores[0], 3)}")
@@ -121,7 +125,7 @@ def DecisionTree(adata, cluster_header, markers_dict, *, medians_header = "media
         else: 
             df_results_cl = pd.DataFrame()
             for marker in markers: 
-                marker, scores = mydecisiontreeevaluation.myDecisionTreeEvaluation(adata, df_dummies, cl, [marker], beta)
+                marker, scores = mydecisiontreeevaluation.myDecisionTreeEvaluation(adata, df_dummies, cl, [marker], beta, logic = logic)
                 dict_results_cl = {'software_version': NSFOREST_VERSION,
                             'cluster_header': cluster_header,
                             'clusterName': cl,
