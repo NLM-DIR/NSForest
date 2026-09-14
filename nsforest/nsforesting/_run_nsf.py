@@ -8,7 +8,7 @@ from nsforest.nsforesting import calculate_fraction
 
 def NSForest(adata, cluster_header, *, medians_header = "medians_", binary_scores_header = "binary_scores_", 
              cluster_list = [], gene_selection = "BinaryFirst_high",
-             n_trees = 1000, n_jobs = -1, beta = 0.5, n_top_genes = 15, n_binary_genes = 10, n_genes_eval = 6,
+             n_trees = 1000, n_jobs = -1, beta = 0.5, logic = "AND", n_top_genes = 15, n_binary_genes = 10, n_genes_eval = 6,
              save = False, save_supplementary = False, output_folder = "", outputfilename_prefix = ""):
     """\
     Performs the main NS-Forest algorithm to find a list of NS-Forest markers for each `cluster_header`. 
@@ -33,6 +33,8 @@ def NSForest(adata, cluster_header, *, medians_header = "medians_", binary_score
             `n_jobs` parameter in sklearn.ensemble's RandomForestClassifier. 
         beta: float (default: 0.5)
             `beta` parameter in sklearn.metrics's fbeta_score. 
+        logic: str (default: "AND")
+            Logic to combine gene predictions.
         n_top_genes: int (default: 15)
             Taking the top `n_top_genes` genes ranked by sklearn.ensemble's RandomForestClassifier as input for sklearn.tree's DecisionTreeClassifier. 
         n_binary_genes: int (default: 10)
@@ -180,7 +182,7 @@ def NSForest(adata, cluster_header, *, medians_header = "medians_", binary_score
 
         ## Evaluation step: calculate F-beta score for gene combinations
         genes_eval = top_binary_genes.index[:n_genes_eval_cl].to_list()
-        markers, scores = mydecisiontreeevaluation.myDecisionTreeEvaluation(adata, df_dummies, cl, genes_eval, beta)
+        markers, scores = mydecisiontreeevaluation.myDecisionTreeEvaluation(adata, df_dummies, cl, genes_eval, beta, logic)
         print(f"\tNSForest-selected markers: {markers}")
         print(f"\tfbeta: {round(scores[0], 3)}")
         print(f"\tprecision: {round(scores[1], 3)}")
